@@ -12,7 +12,7 @@
       <a class="arrow left" @click="changeIndex(-1)"></a>
       <div class="banner">
         <h1 class="title" :key="index">{{ banners[index].title }}</h1>
-        <transition name="fade" mode="in-out" appear>
+        <transition :name="this.direction===1?'fade_rl':'fade_lr'">
           <img
             :src="banners[index].src"
             :key="index"
@@ -44,6 +44,7 @@
   let data = {
     index: 0,
     timer: "",
+    direction: 1,
     banners: [
       {
         title: 11111,
@@ -78,6 +79,7 @@
         this.stop();
         this.index =
           (this.index + change + this.banners.length) % this.banners.length;
+        this.direction = change;
       },
       currentIndex(i) {
         this.stop();
@@ -167,14 +169,19 @@
     background-color: blue;
   }
 
-  .fade-enter,
-  .fade-leave-to {
-    transform: translate(50%);
-    opacity: 0;
+  .fade_rl-enter,
+  .fade_lr-leave-to {
+    transform: translate(100%);
+  }
+  .fade_rl-leave-to,
+  .fade_lr-enter {
+    transform: translate(-100%);
   }
 
-  .fade-enter-active,
-  .fade-leave-active {
-    transition: all 0.7s ease-in-out;
+  .fade_lr-enter-active,
+  .fade_lr-leave-active,
+  .fade_rl-enter-active,
+  .fade_rl-leave-active {
+    transition: all 0.7s;
   }
 </style>
