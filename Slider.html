@@ -12,7 +12,7 @@
       <a class="arrow left" @click="changeIndex(-1)"></a>
       <div class="banner">
         <h1 class="title" :key="index">{{ banners[index].title }}</h1>
-        <transition name="fade" apear>
+        <transition name="fade" mode="in-out" appear>
           <img
             :src="banners[index].src"
             :key="index"
@@ -69,18 +69,18 @@
     data: data,
     methods: {
       go() {
-        this.timer = setInterval(this.autoPlay, 2000);
+        this.timer = setInterval(this.autoPlay, 4000);
       },
       stop() {
         clearInterval(this.timer);
       },
       changeIndex(change) {
-        // this.stop();
+        this.stop();
         this.index =
           (this.index + change + this.banners.length) % this.banners.length;
       },
       currentIndex(i) {
-        // this.stop();
+        this.stop();
         this.index = i;
       },
       autoPlay() {
@@ -142,7 +142,6 @@
   .banner img {
     width: 100%;
     height: auto;
-
     position: absolute;
     top: 0;
     left: 0;
@@ -170,12 +169,12 @@
 
   .fade-enter,
   .fade-leave-to {
+    transform: translate(50%);
     opacity: 0;
   }
 
   .fade-enter-active,
   .fade-leave-active {
-    opacity: 0.7;
-    transition: opacity 0.3s;
+    transition: all 0.7s ease-in-out;
   }
 </style>
